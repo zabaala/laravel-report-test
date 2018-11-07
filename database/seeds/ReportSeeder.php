@@ -13,8 +13,11 @@ class ReportSeeder extends Seeder
      */
     public function run()
     {
-        $twoMetas = Meta::take(2)->get();
         $allMetas = Meta::all();
+
+        $twoMetas = $allMetas->reject(function($meta, $key){
+            return $meta->id !== 3;
+        });
 
         factory(Report::class, 2)->create()->each(function(Report $report) use ($twoMetas, $allMetas) {
             $metas = rand(0, 1) === 1 ? $allMetas : $twoMetas;

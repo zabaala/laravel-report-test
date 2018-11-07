@@ -11,8 +11,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-         $this->call([MetaSeeder::class, ReportSeeder::class]);
-
-         factory(\App\Models\Website::class, 10)->create();
+         $this->call([MetaSeeder::class, ReportSeeder::class, WebsiteSeeder::class]);
     }
 }
