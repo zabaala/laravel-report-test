@@ -15,4 +15,9 @@ class Report extends Model
      * @var array
      */
     protected $dates = ['created_at', 'updated_at'];
+
+    public function metas()
+    {
+        return $this->hasMany(ReportMeta::class, 'report_id', 'id');
+    }
 }

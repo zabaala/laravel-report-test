@@ -18,7 +18,7 @@ class MetaSeeder extends Seeder
             $data = [
                 'model' => 'website',
                 'attribute' => $attribute,
-                'label' => ucwords($attribute),
+                'label' => ucfirst($attribute),
                 'type' => $value
             ];
 
