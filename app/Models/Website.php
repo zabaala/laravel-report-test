@@ -27,10 +27,16 @@ class Website extends Model
         'N' => 'No',
     ];
 
+    /**
+     * Exposed report attributes.
+     *
+     * @var array
+     */
     public static $reportAttributes = [
-        'domain',
-        'name',
-        'active'
+        'domain' => 'text',
+        'name' => 'text',
+        'active' => 'flag',
+        'created_at' => 'date'
     ];
 
     /**
