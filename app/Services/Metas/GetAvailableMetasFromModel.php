@@ -2,9 +2,9 @@
 
 namespace App\Services\Metas;
 
-use App\Models\Website;
 use App\Services\ServiceException;
 use App\Services\ServiceInterface;
+use App\Support\AvailableModels;
 
 class GetAvailableMetasFromModel implements ServiceInterface
 {
@@ -14,9 +14,7 @@ class GetAvailableMetasFromModel implements ServiceInterface
      *
      * @var array
      */
-    protected $availableModels = [
-        'website' => Website::class
-    ];
+    protected $availableModels = [];
 
     /**
      * @var string
@@ -31,6 +29,8 @@ class GetAvailableMetasFromModel implements ServiceInterface
      */
     public function __construct(string $modelName)
     {
+        $this->availableModels = AvailableModels::get();
+
         if (! array_key_exists($modelName, $this->availableModels)) {
             throw new ServiceException("The model '${modelName}' is not available.");
         }
