@@ -7,7 +7,7 @@ $factory->define(\App\Models\Website::class, function (Faker $faker) {
         'user_id' => function() {
             return factory(\App\Models\User::class)->create()->id;
         },
-        'name' => $faker->domainWord,
+        'name' => ucfirst($faker->domainWord),
         'domain' => $faker->domainName
     ];
 });
