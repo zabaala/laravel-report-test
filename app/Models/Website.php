@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -25,6 +25,12 @@ class Website extends Model
     public static $arrActive = [
         'Y' => 'Yes',
         'N' => 'No',
+    ];
+
+    public static $reportAttributes = [
+        'domain',
+        'name',
+        'active'
     ];
 
     /**
