@@ -15,8 +15,8 @@ class ReportSeeder extends Seeder
     {
         $allMetas = Meta::all();
 
-        $twoMetas = $allMetas->reject(function($meta, $key){
-            return $meta->id !== 3;
+        $twoMetas = $allMetas->filter(function($meta){
+            return $meta->id < 3;
         });
 
         factory(Report::class, 2)->create()->each(function(Report $report) use ($twoMetas, $allMetas) {
