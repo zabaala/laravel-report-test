@@ -3,13 +3,18 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Services\Metas\GetAvailableMetasFromModel;
+use App\Repositories\DbMetaRepository;
 use Illuminate\Http\Request;
 
 class MetasController extends Controller
 {
-    public function getAvailableMetasFromModel(Request $request)
+    /**
+     * @param Request $request
+     * @param DbMetaRepository $metaRepository
+     * @return mixed
+     */
+    public function getMetasByModelName(Request $request, DbMetaRepository $metaRepository)
     {
-        return (new GetAvailableMetasFromModel($request->model))->run();
+        return $metaRepository->getMetasByModelName($request->model);
     }
 }

@@ -16,12 +16,21 @@
             <div class="col-3">
                 <div class="card">
                     <div class="card-body">
-                        <a href="#{{ $report->id }}">{{  $report->name }}</a>
+                        <h5 class="m-0"><a href="#{{ $report->id }}">{{  $report->name }}</a></h5>
                     </div>
 
-                    <div class="card-footer">
-                        <a href="#" class="btn btn-sm btn-outline-info">Use it!</a>
-                        <a href="#" class="btn btn-sm btn-outline-info m-auto">Edit</a>
+                    <div class=" card-footer">
+                        <div class="row">
+                            <div class="col-7 mr-auto">
+                                <a href="#" class="btn btn-sm btn-outline-info">Use it!</a>
+                            </div>
+
+                            <div class="col-5`">
+                                <a href="{{ route('manager.reports.edit', $report->id) }}" class="btn btn-sm btn-outline-default m-auto">manage</a>
+                            </div>
+                        </div>
+
+
 
                     </div>
                 </div>
@@ -36,13 +45,15 @@
             <div class="col-3">
                 <div class="card">
                     <div class="card-body">
-                        <a href="#{{ $website->id }}">
-                            <h4>{{  $website->name }}</h4>
-                            {{  $website->domain }}<br>
-                        </a>
+                        <h5 class="mb-0">{{  $website->name }}</h5>
+                        {{  $website->domain }}
                     </div>
                     <div class="card-footer">
-                        <a href="#" class="btn btn-sm btn-outline-info">Visit</a>
+                        <a
+                            href="{{ 'http://' . $website->domain }}"
+                            target="_blank"
+                            class="btn btn-sm btn-outline-info"
+                        >Visit</a>
                     </div>
                 </div>
             </div>

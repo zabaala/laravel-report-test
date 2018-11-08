@@ -10466,6 +10466,15 @@ a.text-dark:focus {
   }
 }
 
+label {
+  font-weight: 700;
+}
+
+.table th,
+.table td {
+  background: white;
+}
+
 .navbar-laravel {
   background-color: #fff;
   -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);

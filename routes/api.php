@@ -18,7 +18,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::namespace('Api')->group(function() {
-    Route::post('/metas/from-a-model', ['uses' => 'MetasController@getAvailableMetasFromModel']);
+    Route::get('/metas/by-model', ['as' => 'metas.from-a-model', 'uses' => 'MetasController@getMetasByModelName']);
 });
 
 

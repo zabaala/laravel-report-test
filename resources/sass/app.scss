@@ -8,6 +8,15 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
+// Globals
+label{
+  font-weight: 700;
+}
+.table th, .table td{
+  background: white;
+}
+
+// Layout
 .navbar-laravel {
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
