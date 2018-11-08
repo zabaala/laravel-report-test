@@ -14,7 +14,7 @@ $updated_at = $editing ? $report->updated_at : '';
     <div class="container">
         <h2 class="mb-4 mt-4">Report (edit)</h2>
 
-        <form action="{{ $formAction }}" method="post">
+        <form action="{{ $formAction }}" method="post" id="form">
             @csrf
 
             @if($editing)
@@ -47,6 +47,8 @@ $updated_at = $editing ? $report->updated_at : '';
 
                             <p>Choose metas that will be related with this report.</p>
 
+                                <?php $lastModel = null; ?>
+
                                 @foreach($metas as $meta)
 
                                     <?php
@@ -54,6 +56,12 @@ $updated_at = $editing ? $report->updated_at : '';
                                             return $item == $meta->id;
                                         };
                                     ?>
+
+                                    @if($meta->model !== $lastModel)
+                                        <strong>{{ ucfirst($meta->model) }} Model:</strong>
+                                    @endif
+
+                                    <?php $lastModel = $meta->model; ?>
 
                                     <div class="form-check">
                                         <input
@@ -69,8 +77,6 @@ $updated_at = $editing ? $report->updated_at : '';
                                         </label>
                                     </div>
                                 @endforeach
-
-
                             <div id="metas-list"></div>
                         </div>
                     </div>
@@ -79,9 +85,20 @@ $updated_at = $editing ? $report->updated_at : '';
                 <div class="card-footer">
                     <button class="btn btn-lg btn-success">Save</button>
                     <a href="{{ route('manager.reports.index') }}" class="btn">back</a>
+                    <button type="button" id="delete" class="btn btn-lg btn-outline-danger float-right">Delete</button>
                 </div>
             </div>
         </form>
     </div>
 
+@endsection
+
+@section('scripts')
+    <script>
+        document.getElementById('delete').addEventListener('click', e => {
+            e.preventDefault();
+            document.querySelector('input[name="_method"]').value = 'DELETE';
+            document.getElementById('form').submit();
+        });
+    </script>
 @endsection

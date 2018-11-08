@@ -81,4 +81,13 @@ class DbReportRepository
 
         return $report;
     }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function deleteReportById($id)
+    {
+        return Report::findOrFail($id)->delete();
+    }
 }

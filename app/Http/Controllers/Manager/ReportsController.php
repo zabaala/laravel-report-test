@@ -46,11 +46,10 @@ class ReportsController extends Controller
 
     /**
      * @param ValidateReportFormRequest $request
-     * @param DbReportRepository $reportRepository
      */
-    public function store(ValidateReportFormRequest $request, DbReportRepository $reportRepository)
+    public function store(ValidateReportFormRequest $request)
     {
-        $report = $reportRepository->createReportFromArray($request->all());
+        $report = $this->reportRepository->createReportFromArray($request->all());
 
         return redirect(route('manager.reports.edit', $report->id))
             ->withSuccess('Report created with success.');
@@ -63,25 +62,36 @@ class ReportsController extends Controller
      */
     public function edit($id, DbMetaRepository $metaRepository)
     {
+
         return $this->formView($id, $metaRepository);
     }
 
     /**
      * @param ValidateReportFormRequest $request
-     * @param DbReportRepository $reportRepository
      * @param $id
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function update(
         ValidateReportFormRequest $request,
-        DbReportRepository $reportRepository,
         $id
     )
     {
-        $reportRepository->updateReportFromArray($request->all(), $id);
+        $this->reportRepository->updateReportFromArray($request->all(), $id);
 
         return redirect(route('manager.reports.edit', $id))
             ->withSuccess('Report updated with success.');
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function destroy($id)
+    {
+        $this->reportRepository->deleteReportById($id);
+
+        return redirect(route('manager.reports.index'))
+            ->withSuccess('Report was deleted with success.');
     }
 
     /**
