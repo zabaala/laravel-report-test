@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Controllers\Manager;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Http\FormRequests\Manager\Reports\ValidateReportFormRequest;
 use App\Models\Report;
 use App\Repositories\DbMetaRepository;
