@@ -2,7 +2,10 @@
 
 @section('content')
     <div class="container">
-        <h2 class="mt-4 mb-4">Reports</h2>
+        <h2 class="mt-4 mb-4">
+            Reports
+            <a href="{{ route('manager.reports.create') }}" class="btn btn-outline-success float-right">New</a>
+        </h2>
 
         <div class="row">
             <div class="col-12">

@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Report;
+use App\Models\ReportMeta;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class DbReportRepository
@@ -38,5 +39,46 @@ class DbReportRepository
     public function findReportById($id)
     {
         return Report::find($id);
+    }
+
+    /**
+     * @param array $data
+     * @return mixed
+     */
+    public function createReportFromArray(array $data)
+    {
+        $report = new Report();
+        return $this->saveReport($data, $report);
+    }
+
+    /**
+     * @param array $data
+     * @param $id
+     * @return Report
+     */
+    public function updateReportFromArray(array $data, $id)
+    {
+        /** @var $report Report */
+        $report = Report::findOrFail($id);
+        return $this->saveReport($data, $report);
+    }
+
+    /**
+     * @param array $data
+     * @param Report $report
+     * @return mixed
+     */
+    private function saveReport(array $data, Report $report)
+    {
+        $report->name = $data['name'];
+        $report->save();
+
+        $report->metas()->delete();
+
+        $report->metas()->saveMany(array_map(function ($item) {
+            return new ReportMeta(['meta_id' => $item]);
+        }, $data['meta_id']));
+
+        return $report;
     }
 }

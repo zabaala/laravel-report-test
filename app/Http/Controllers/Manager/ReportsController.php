@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Manager;
 
 use App\Http\Controllers\Controller;
+use App\Http\FormRequests\Manager\Reports\ValidateReportFormRequest;
+use App\Models\Report;
 use App\Repositories\DbMetaRepository;
 use App\Repositories\DbReportRepository;
 
@@ -34,15 +36,75 @@ class ReportsController extends Controller
     }
 
     /**
+     * @param DbMetaRepository $metaRepository
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function create(DbMetaRepository $metaRepository)
+    {
+        return $this->formView(null, $metaRepository);
+    }
+
+    /**
+     * @param ValidateReportFormRequest $request
+     * @param DbReportRepository $reportRepository
+     */
+    public function store(ValidateReportFormRequest $request, DbReportRepository $reportRepository)
+    {
+        $report = $reportRepository->createReportFromArray($request->all());
+
+        return redirect(route('manager.reports.edit', $report->id))
+            ->withSuccess('Report created with success.');
+    }
+
+    /**
      * @param $id
      * @param DbMetaRepository $metaRepository
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function edit($id, DbMetaRepository $metaRepository)
     {
-        $report = $this->reportRepository->findReportById($id);
-        $availableModels = $metaRepository->getAllAvailableModels();
+        return $this->formView($id, $metaRepository);
+    }
 
-        return view('manager.reports.form', compact('report', 'availableModels'));
+    /**
+     * @param ValidateReportFormRequest $request
+     * @param DbReportRepository $reportRepository
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function update(
+        ValidateReportFormRequest $request,
+        DbReportRepository $reportRepository,
+        $id
+    )
+    {
+        $reportRepository->updateReportFromArray($request->all(), $id);
+
+        return redirect(route('manager.reports.edit', $id))
+            ->withSuccess('Report updated with success.');
+    }
+
+    /**
+     * @param $id
+     * @param DbMetaRepository $metaRepository
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    private function formView($id, DbMetaRepository $metaRepository)
+    {
+        /** @var $report Report */
+        $report = is_numeric($id) ? $this->reportRepository->findReportById($id) : null;
+        $metas = $metaRepository->getAllMetas();
+
+        $selectedMetas = [];
+
+        if (! is_null($id)) {
+            $selectedMetas = $report->metas()->select(['meta_id'])->get()->toArray();
+            $selectedMetas = collect($selectedMetas)->flatten(1);
+        }
+
+        return view(
+            'manager.reports.form',
+            compact('report', 'metas', 'selectedMetas')
+        );
     }
 }

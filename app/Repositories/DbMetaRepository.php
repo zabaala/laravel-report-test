@@ -25,4 +25,12 @@ class DbMetaRepository
     {
         return Meta::whereModel($modelName)->get();
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
+    public function getAllMetas()
+    {
+        return Meta::all();
+    }
 }

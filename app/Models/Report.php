@@ -21,6 +21,6 @@ class Report extends Model
      */
     public function metas()
     {
-        return $this->hasMany(ReportMeta::class, 'report_id', 'id');
+        return $this->hasMany(ReportMeta::class);
     }
 }

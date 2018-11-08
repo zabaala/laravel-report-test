@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>Report App</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -84,6 +84,32 @@
         </nav>
 
         <main class="py-4">
+            <div class="container">
+                @if (count($errors) > 0)
+                    <div class="alert alert-danger ">
+                        <strong>Ops... Something is wrong:</strong>
+                        <ul class="m-0">
+                            @foreach ($errors->all() as $error)
+                                <li style="text-align: left !important;">{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                @if(Session::has('success'))
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <strong>{{ Session::get('success') }}</strong>
+                    </div>
+                @endif
+
+                @if(Session::has('custom_error'))
+                    <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <strong>{!! Session::get('custom_error') !!}</strong>
+                    </div>
+                @endif
+            </div>
             @yield('content')
         </main>
     </div>

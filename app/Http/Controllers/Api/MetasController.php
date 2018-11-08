@@ -9,12 +9,11 @@ use Illuminate\Http\Request;
 class MetasController extends Controller
 {
     /**
-     * @param Request $request
      * @param DbMetaRepository $metaRepository
      * @return mixed
      */
-    public function getMetasByModelName(Request $request, DbMetaRepository $metaRepository)
+    public function all(DbMetaRepository $metaRepository)
     {
-        return $metaRepository->getMetasByModelName($request->model);
+        return $metaRepository->getAllMetas();
     }
 }

@@ -3,6 +3,8 @@
 <?php
 $editing = $report && !empty($report->id);
 
+$formAction = $editing ? route('manager.reports.update', $report->id) : route('manager.reports.store');
+
 $name = $editing ? $report->name : '';
 $created_at = $editing ? $report->created_at : '';
 $updated_at = $editing ? $report->updated_at : '';
@@ -11,7 +13,8 @@ $updated_at = $editing ? $report->updated_at : '';
 @section('content')
     <div class="container">
         <h2 class="mb-4 mt-4">Report (edit)</h2>
-        <form action="?" method="post">
+
+        <form action="{{ $formAction }}" method="post">
             @csrf
 
             @if($editing)
@@ -34,22 +37,39 @@ $updated_at = $editing ? $report->updated_at : '';
                                 </div>
                             </div>
 
-
-
                             <div class="form-group">
                                 <label for="name">Name:</label>
                                 <input id="name" name="name" value="{{ $name }}" required class="form-control">
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <p>Choose a model to see all your related metas.</p>
+                            <h5>Metas</h5>
 
-                            <select name="model_id" id="model_id" class="form-control mt-3" required>
-                                <option value="n">Choose a model...</option>
-                                @foreach($availableModels as $model)
-                                    <option value="{{ $model->id }}">{{ $model->name }}</option>
+                            <p>Choose metas that will be related with this report.</p>
+
+                                @foreach($metas as $meta)
+
+                                    <?php
+                                        $isSelectedMeta = function ($item) use ($meta) {
+                                            return $item == $meta->id;
+                                        };
+                                    ?>
+
+                                    <div class="form-check">
+                                        <input
+                                            type="checkbox"
+                                            name="meta_id[]"
+                                            id="meta_id_{{$meta->id}}"
+                                            value="{{$meta->id}}"
+                                            class="form-check-input"
+                                            {{ $editing && $selectedMetas->contains($isSelectedMeta) ? 'checked' : '' }}
+                                        >
+                                        <label for="meta_id_{{$meta->id}}">
+                                            {{ $meta->id }} - {{ $meta->label }}: {{ $meta->type }}
+                                        </label>
+                                    </div>
                                 @endforeach
-                            </select>
+
 
                             <div id="metas-list"></div>
                         </div>
@@ -64,8 +84,4 @@ $updated_at = $editing ? $report->updated_at : '';
         </form>
     </div>
 
-@endsection
-
-@section('scripts')
-    <script type="text/javascript" src="{{ asset('js/reports.js') }}"></script>
 @endsection
