@@ -74,37 +74,39 @@ module.exports = __webpack_require__(45);
 /***/ }),
 
 /***/ 45:
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__) {
 
+"use strict";
 var modelEl = document.getElementById('model_id');
 
 var metaItem = function metaItem(meta) {
     return '\n    <div class="form-check">\n        <input type="checkbox" class="form-check-input" name="meta[]" value="' + meta.id + '" id="meta_id_' + meta.id + '">\n        <label for="meta_id_' + meta.id + '">' + meta.label + ': ' + meta.type + '</label>\n    </div>\n';
 };
 
+var container = document.getElementById('metas-list');
+
 var writeMetas = function writeMetas(metas) {
-    var html = '<h5 class="mt-5">Available Metas:</h5> ' + metas.join(' ');
-
-    console.log(html);
-
-    document.getElementById('metas-list').innerHTML = html;
+    container.innerHTML = '<h5 class="mt-5">Available Metas:</h5> ' + metas.join(' ');
 };
 
 modelEl.addEventListener('change', function (e) {
     var modelName = e.target.options[e.target.selectedIndex].text;
-    var modelValue = e.target.options[e.target.selectedIndex].text;
+    var modelValue = e.target.options[e.target.selectedIndex].value;
 
     if (modelValue !== 'n') {
         fetch('/api/metas/by-model?model=' + modelName).then(function (response) {
             return response.json();
         }).then(function (json) {
-            console.log(json);
             var metas = json.map(function (meta) {
                 return metaItem(meta);
             });
             writeMetas(metas);
         });
+
+        return;
     }
+
+    container.innerHTML = '';
 });
 
 /***/ })
