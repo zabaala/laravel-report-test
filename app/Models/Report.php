@@ -16,6 +16,9 @@ class Report extends Model
      */
     protected $dates = ['created_at', 'updated_at'];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function metas()
     {
         return $this->hasMany(ReportMeta::class, 'report_id', 'id');
