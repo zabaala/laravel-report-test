@@ -3,7 +3,7 @@
 <?php
 $editing = $report && !empty($report->id);
 
-$formAction = $editing ? route('manager.reports.update', $report->id) : route('manager.reports.store');
+$formAction = $editing ? route('reports.update', $report->id) : route('reports.store');
 
 $name = $editing ? $report->name : '';
 $created_at = $editing ? $report->created_at : '';
@@ -84,7 +84,7 @@ $updated_at = $editing ? $report->updated_at : '';
 
                 <div class="card-footer">
                     <button class="btn btn-lg btn-success">Save</button>
-                    <a href="{{ route('manager.reports.index') }}" class="btn">back</a>
+                    <a href="{{ route('reports.index') }}" class="btn">back</a>
                     <button type="button" id="delete" class="btn btn-lg btn-outline-danger float-right">Delete</button>
                 </div>
             </div>

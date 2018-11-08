@@ -41,7 +41,7 @@
                                 <a class="dropdown-item" href="#">Manage</a>
                                 <div class="dropdown-divider"></div>
                                 @foreach($reports as $report)
-                                    <a href="#" class="dropdown-item">{{ $report->name }}</a>
+                                    <a href="{{ route('reports.show', $report->id) }}" class="dropdown-item">{{ $report->name }}</a>
                                 @endforeach
                             </div>
                         </li>

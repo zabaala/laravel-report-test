@@ -19,6 +19,6 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::middleware('auth')->name('manager.')->group(function() {
+Route::middleware('auth')->group(function() {
     Route::resource('/manager/reports', 'ReportsController');
 });

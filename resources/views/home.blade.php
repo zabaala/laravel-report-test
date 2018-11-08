@@ -26,7 +26,7 @@
                             </div>
 
                             <div class="col-5`">
-                                <a href="{{ route('manager.reports.edit', $report->id) }}" class="btn btn-sm btn-outline-default m-auto">manage</a>
+                                <a href="{{ route('reports.edit', $report->id) }}" class="btn btn-sm btn-outline-default m-auto">manage</a>
                             </div>
                         </div>
 

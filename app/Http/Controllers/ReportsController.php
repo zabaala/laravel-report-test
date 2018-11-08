@@ -31,7 +31,12 @@ class ReportsController extends Controller
     public function index()
     {
         $reports = $this->reportRepository->getAllReportsPaginated();
-        return view('manager.reports.index', compact('reports'));
+        return view('reports.index', compact('reports'));
+    }
+
+    public function show($id)
+    {
+
     }
 
     /**
@@ -50,7 +55,7 @@ class ReportsController extends Controller
     {
         $report = $this->reportRepository->createReportFromArray($request->all());
 
-        return redirect(route('manager.reports.edit', $report->id))
+        return redirect(route('reports.edit', $report->id))
             ->withSuccess('Report created with success.');
     }
 
@@ -77,7 +82,7 @@ class ReportsController extends Controller
     {
         $this->reportRepository->updateReportFromArray($request->all(), $id);
 
-        return redirect(route('manager.reports.edit', $id))
+        return redirect(route('reports.edit', $id))
             ->withSuccess('Report updated with success.');
     }
 
@@ -89,7 +94,7 @@ class ReportsController extends Controller
     {
         $this->reportRepository->deleteReportById($id);
 
-        return redirect(route('manager.reports.index'))
+        return redirect(route('reports.index'))
             ->withSuccess('Report was deleted with success.');
     }
 
@@ -112,7 +117,7 @@ class ReportsController extends Controller
         }
 
         return view(
-            'manager.reports.form',
+            'reports.form',
             compact('report', 'metas', 'selectedMetas')
         );
     }
