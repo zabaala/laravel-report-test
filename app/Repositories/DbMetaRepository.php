@@ -33,4 +33,13 @@ class DbMetaRepository
     {
         return Meta::all();
     }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function getMetaById($id)
+    {
+        return Meta::findOrFail($id);
+    }
 }

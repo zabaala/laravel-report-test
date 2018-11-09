@@ -90,4 +90,24 @@ class DbReportRepository
     {
         return Report::findOrFail($id)->delete();
     }
+
+    /**
+     * @param int $report_id
+     * @param null $model
+     * @return mixed
+     */
+    public function relatedMetasOfReport(int $report_id, $model = null)
+    {
+        $metas = ReportMeta::leftJoin('metas', 'metas.id', '=', 'report_metas.meta_id')->whereReportId($report_id);
+
+        if (! empty($model)) {
+            $metas = $metas->whereModel($model);
+        }
+
+        $metas = $metas->orderBy('model', 'asc')
+            ->orderBy('label', 'asc')
+            ->get();
+
+        return $metas;
+    }
 }

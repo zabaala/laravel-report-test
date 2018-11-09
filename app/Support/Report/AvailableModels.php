@@ -19,8 +19,17 @@ class AvailableModels
     /**
      * @return array
      */
-    public static function get()
+    public static function all()
     {
         return self::$models;
+    }
+
+    /**
+     * @param $key
+     * @return mixed
+     */
+    public static function get($key)
+    {
+        return self::$models[$key];
     }
 }

@@ -6,6 +6,8 @@ use App\Http\FormRequests\Manager\Reports\ValidateReportFormRequest;
 use App\Models\Report;
 use App\Repositories\DbMetaRepository;
 use App\Repositories\DbReportRepository;
+use App\Support\FilterQueryBuilder\FilterQueryBuilder;
+use Illuminate\Http\Request;
 
 class ReportsController extends Controller
 {
@@ -34,9 +36,30 @@ class ReportsController extends Controller
         return view('reports.index', compact('reports'));
     }
 
-    public function show($id)
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function show(Request $request, $id)
     {
+        $report = $this->reportRepository->findReportById($id);
+        $metas = $this->reportRepository->relatedMetasOfReport($report->id, $request->model);
+        $models = collect($metas->toArray())->pluck('model')->unique();
+        $model = $request->model ?: null;
 
+        $results = [];
+        $results = ((new FilterQueryBuilder($request->all()))->getModel())->get()->toArray();
+
+
+        if ($request->has('build')) {
+
+        }
+
+        return view(
+            'reports.show',
+            compact('results', 'report', 'metas', 'models', 'model', 'results')
+        );
     }
 
     /**
