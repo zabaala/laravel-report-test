@@ -38,7 +38,7 @@
                                 Reports
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
-                                <a class="dropdown-item" href="#">Manage</a>
+                                <a class="dropdown-item" href="{{ route('reports.index') }}">Manage</a>
                                 <div class="dropdown-divider"></div>
                                 @foreach($reports as $report)
                                     <a href="{{ route('reports.show', $report->id) }}" class="dropdown-item">{{ $report->name }}</a>

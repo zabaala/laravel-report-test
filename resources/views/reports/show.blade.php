@@ -31,18 +31,9 @@
                     <input type="hidden" name="build" value="true">
 
                     <div class="card-body">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <label for="keyword">Keyword:</label>
-                                    <input name="keyword" id="keyword" class="form-control form-control-lg">
-                                </div>
-                            </div>
-                        </div>
-
                         <h3>
                             Criteria:
-                            <a class="btn btn-sm btn-outline-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">choose...</a>
+                            <a class="btn btn-sm btn-outline-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">add...</a>
                             <div class="dropdown-menu">
                                 @foreach($metas as $meta)
                                     <a class="dropdown-item meta"

@@ -49,11 +49,9 @@ class ReportsController extends Controller
         $model = $request->model ?: null;
 
         $results = [];
-        $results = ((new FilterQueryBuilder($request->all()))->getModel())->get()->toArray();
 
-
-        if ($request->has('build')) {
-
+        if ($request->has('model')) {
+            $results = ((new FilterQueryBuilder($request->all()))->getModel())->get()->toArray();
         }
 
         return view(

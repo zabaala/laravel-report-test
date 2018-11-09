@@ -1,6 +1,6 @@
 export const textTemplate = (index, meta) => {
     return`
-        <div class="col-6">
+        <div class="col-6  mb-3">
             <label for="a">${meta.label}:</label>
             <div class="input-group">
                 <input type="hidden" name="criteria[${index}][text][meta_id]" value="${meta.id}">
