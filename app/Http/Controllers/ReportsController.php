@@ -56,11 +56,13 @@ class ReportsController extends Controller
             'criteria' => unserialize($report->criteria)
         ];
 
-        $results = ((new FilterQueryBuilder($data))->getModel())->get()->toArray();
+        $results = ((new FilterQueryBuilder($data))->getModel())->get();
+
+        $presentationView = AvailableModels::getPresentation($report->model);
 
         return view(
             'reports.show',
-            compact('results', 'report', 'metas', 'models', 'model', 'results')
+            compact('results', 'report', 'results', 'presentationView')
         );
     }
 

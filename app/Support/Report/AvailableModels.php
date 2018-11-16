@@ -17,6 +17,14 @@ class AvailableModels
     ];
 
     /**
+     * Model related presentation view.
+     * @var array
+     */
+    private static $presentations = [
+        'website' => 'presentations.website'
+    ];
+
+    /**
      * @return array
      */
     public static function all()
@@ -31,5 +39,14 @@ class AvailableModels
     public static function get($key)
     {
         return self::$models[$key];
+    }
+
+    /**
+     * @param $key
+     * @return mixed
+     */
+    public static function getPresentation($key)
+    {
+        return self::$presentations[$key];
     }
 }
