@@ -71,13 +71,9 @@ class DbReportRepository
     private function saveReport(array $data, Report $report)
     {
         $report->name = $data['name'];
+        $report->model = $data['model'];
+        $report->criteria = serialize($data['criteria']);
         $report->save();
-
-        $report->metas()->delete();
-
-        $report->metas()->saveMany(array_map(function ($item) {
-            return new ReportMeta(['meta_id' => $item]);
-        }, $data['meta_id']));
 
         return $report;
     }

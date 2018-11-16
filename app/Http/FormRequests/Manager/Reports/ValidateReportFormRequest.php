@@ -21,14 +21,7 @@ class ValidateReportFormRequest extends FormRequest
     {
         return [
             'name' => 'required|min:6',
-            'meta_id' => 'required|array'
-        ];
-    }
-
-    public function messages()
-    {
-        return [
-            'meta_id.required' => 'The meta is required.',
+            'model' => 'required'
         ];
     }
 }

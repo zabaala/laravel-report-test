@@ -22,16 +22,13 @@
                     <div class=" card-footer">
                         <div class="row">
                             <div class="col-7 mr-auto">
-                                <a href="#" class="btn btn-sm btn-outline-info">Use it!</a>
+                                <a href="#" class="btn btn-sm btn-outline-info">See it!</a>
                             </div>
 
                             <div class="col-5`">
-                                <a href="{{ route('reports.edit', $report->id) }}" class="btn btn-sm btn-outline-default m-auto">manage</a>
+                                <a href="{{ route('reports.edit', $report->id) }}" class="btn btn-sm btn-outline-default m-auto">edit</a>
                             </div>
                         </div>
-
-
-
                     </div>
                 </div>
             </div>

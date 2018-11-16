@@ -16,3 +16,5 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/metas/by-model-name', ['as' => 'metas.by-model-name', 'uses' => 'Api\MetasController@getMetasByModelName']);

@@ -6,8 +6,10 @@ $editing = $report && !empty($report->id);
 $formAction = $editing ? route('reports.update', $report->id) : route('reports.store');
 
 $name = $editing ? $report->name : '';
+$model = $editing ? $report->model : '';
 $created_at = $editing ? $report->created_at : '';
 $updated_at = $editing ? $report->updated_at : '';
+
 ?>
 
 @section('content')
@@ -24,68 +26,73 @@ $updated_at = $editing ? $report->updated_at : '';
             <div class="card">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <div class="row">
-                                <div class="form-group col-6">
+                                <div class="form-group col-3">
                                     <label for="created_at">Created At</label>
                                     <input type="text" id="created_at" readonly class="form-control-plaintext" value="{{ $created_at }}">
                                 </div>
 
-                                <div class="form-group col-6">
+                                <div class="form-group col-3">
                                     <label for="updated_at">Updated At</label>
                                     <input type="text" id="updated_at" readonly class="form-control-plaintext" value="{{ $updated_at }}">
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label for="name">Name:</label>
-                                <input id="name" name="name" value="{{ $name }}" required class="form-control">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <h5>Metas</h5>
-
-                            <p>Choose metas that will be related with this report.</p>
-
-                                <?php $lastModel = null; ?>
-
-                                @foreach($metas as $meta)
-
-                                    <?php
-                                        $isSelectedMeta = function ($item) use ($meta) {
-                                            return $item == $meta->id;
-                                        };
-                                    ?>
-
-                                    @if($meta->model !== $lastModel)
-                                        <strong>{{ ucfirst($meta->model) }} Model:</strong>
-                                    @endif
-
-                                    <?php $lastModel = $meta->model; ?>
-
-                                    <div class="form-check">
-                                        <input
-                                            type="checkbox"
-                                            name="meta_id[]"
-                                            id="meta_id_{{$meta->id}}"
-                                            value="{{$meta->id}}"
-                                            class="form-check-input"
-                                            {{ $editing && $selectedMetas->contains($isSelectedMeta) ? 'checked' : '' }}
-                                        >
-                                        <label for="meta_id_{{$meta->id}}">
-                                            {{ $meta->id }} - {{ $meta->label }}: {{ $meta->type }}
-                                        </label>
+                            <div class="row">
+                                <div class="col-8">
+                                    <div class="form-group">
+                                        <label for="name">Name:</label>
+                                        <input id="name" name="name" value="{{ $name }}" required class="form-control">
                                     </div>
-                                @endforeach
-                            <div id="metas-list"></div>
+                                </div>
+
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <label for="model">Model:</label>
+                                        <select name="model" id="model" class="form-control">
+                                            <option value="n">Choose a option...</option>
+                                            @foreach($models as $key => $value)
+                                                <option
+                                                    value="{{ $key }}" {{ $model === $key ? 'selected' : '' }}
+                                                >{{ ucfirst($key) }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+
                         </div>
+
                     </div>
+                </div>
+
+                <hr>
+
+                <div class="card-body pt-0 pb-0">
+                    <p>
+                        <span class="h3">Criteria:</span>
+                        <span id="meta-select-container">
+                            <small>
+                                Select a model to continue...
+                            </small>
+                        </span>
+                    </p>
+                </div>
+
+                <hr>
+
+                <div class="class-body container">
+                    <div class="row" id="criteria-container"></div>
                 </div>
 
                 <div class="card-footer">
                     <button class="btn btn-lg btn-success">Save</button>
                     <a href="{{ route('reports.index') }}" class="btn">back</a>
-                    <button type="button" id="delete" class="btn btn-lg btn-outline-danger float-right">Delete</button>
+                    @if(isset($report->id))
+                        <button type="button" id="delete" class="btn btn-lg btn-outline-danger float-right">Delete</button>
+                    @endif
                 </div>
             </div>
         </form>
@@ -95,10 +102,11 @@ $updated_at = $editing ? $report->updated_at : '';
 
 @section('scripts')
     <script>
-        document.getElementById('delete').addEventListener('click', e => {
-            e.preventDefault();
-            document.querySelector('input[name="_method"]').value = 'DELETE';
-            document.getElementById('form').submit();
-        });
+        const Report = {
+            id: {{ $report->id }},
+            criteria: {!! json_encode(unserialize($report->criteria)) !!}
+        };
     </script>
+
+    <script type="module" src="{{ asset('js/report/report.js') }}"></script>
 @endsection

@@ -6,8 +6,10 @@ use App\Http\FormRequests\Manager\Reports\ValidateReportFormRequest;
 use App\Models\Report;
 use App\Repositories\DbMetaRepository;
 use App\Repositories\DbReportRepository;
+use App\Support\AvailableModels;
 use App\Support\FilterQueryBuilder\FilterQueryBuilder;
 use Illuminate\Http\Request;
+use Mockery\Exception;
 
 class ReportsController extends Controller
 {
@@ -37,22 +39,26 @@ class ReportsController extends Controller
     }
 
     /**
-     * @param Request $request
      * @param $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function show(Request $request, $id)
+    public function show($id)
     {
         $report = $this->reportRepository->findReportById($id);
-        $metas = $this->reportRepository->relatedMetasOfReport($report->id, $request->model);
-        $models = collect($metas->toArray())->pluck('model')->unique();
-        $model = $request->model ?: null;
 
-        $results = [];
-
-        if ($request->has('model')) {
-            $results = ((new FilterQueryBuilder($request->all()))->getModel())->get()->toArray();
+        if (empty($report->model)) {
+            return redirect(route('reports.edit', $id))
+                ->withCustomError(
+                    'To use this report, please configure it correctly: model is not defined to report ' . $id
+                );
         }
+
+        $data = [
+            'model' => $report->model,
+            'criteria' => unserialize($report->criteria)
+        ];
+
+        $results = ((new FilterQueryBuilder($data))->getModel())->get()->toArray();
 
         return view(
             'reports.show',
@@ -74,6 +80,7 @@ class ReportsController extends Controller
      */
     public function store(ValidateReportFormRequest $request)
     {
+
         $report = $this->reportRepository->createReportFromArray($request->all());
 
         return redirect(route('reports.edit', $report->id))
@@ -87,7 +94,6 @@ class ReportsController extends Controller
      */
     public function edit($id, DbMetaRepository $metaRepository)
     {
-
         return $this->formView($id, $metaRepository);
     }
 
@@ -121,25 +127,18 @@ class ReportsController extends Controller
 
     /**
      * @param $id
-     * @param DbMetaRepository $metaRepository
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    private function formView($id, DbMetaRepository $metaRepository)
+    private function formView($id)
     {
         /** @var $report Report */
         $report = is_numeric($id) ? $this->reportRepository->findReportById($id) : null;
-        $metas = $metaRepository->getAllMetas();
 
-        $selectedMetas = [];
-
-        if (! is_null($id)) {
-            $selectedMetas = $report->metas()->select(['meta_id'])->get()->toArray();
-            $selectedMetas = collect($selectedMetas)->flatten(1);
-        }
+        $models = AvailableModels::all();
 
         return view(
             'reports.form',
-            compact('report', 'metas', 'selectedMetas')
+            compact('report', 'models')
         );
     }
 }
