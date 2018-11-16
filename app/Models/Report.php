@@ -9,18 +9,10 @@ class Report extends Model
     /**
      * @var array
      */
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'model'];
 
     /**
      * @var array
      */
     protected $dates = ['created_at', 'updated_at'];
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function metas()
-    {
-        return $this->hasMany(ReportMeta::class);
-    }
 }

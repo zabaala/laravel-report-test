@@ -21,6 +21,8 @@ const metaDropDownOnChangeHandler = el => {
     const counter = document.querySelectorAll('#criteria-container .col-6').length;
 
     criteriaHtmlBuilder(counter, data);
+
+    el.selectedIndex = 0;
 };
 
 /**
@@ -47,13 +49,12 @@ document.getElementById('model').addEventListener('change', function () {
 /**
  * Special calls, if Report has a ID property.
  */
-if (Report.hasOwnProperty('id')) {
+if (Report.hasOwnProperty('id') && Report.id !== '') {
     // delete actions...
     deleteAction();
 
     // add existing criteria to report form...
-    Report.criteria.forEach((item, i) => {
-
+    Report.criteria.constructor === Array && Report.criteria.forEach((item, i) => {
         let data = {};
 
         if (item.hasOwnProperty('text')) {
@@ -68,6 +69,7 @@ if (Report.hasOwnProperty('id')) {
 
         criteriaHtmlBuilder(i, data);
     });
+
 
     // Trigger onChange from select Model...
     const changeEvent = new Event('change');

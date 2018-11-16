@@ -9,7 +9,7 @@ export const textTemplate = (id, index, data) => {
             </label>
             
             <div class="input-group">
-                <input type="hidden" name="criteria[${index}][text][meta_id]" value="${data.id}">
+                <input type="hidden" name="criteria[${index}][text][meta_id]" value="${data.id || data.meta_id}">
                 <input type="hidden" name="criteria[${index}][text][label]" value="${data.label}">
                 <select name="criteria[${index}][text][operator]" id="select" class="form-control ${index === 0 ? 'd-none' : ''}">
                     <option value="and" ${data.operator === '' ? 'selected' : (data.operator === 'and' ? 'selected' : '')}>AND</option>
@@ -38,7 +38,7 @@ export const dateTemplate = (id, index, data) => {
             </label>
             
             <div class="input-group">
-                <input type="hidden" name="criteria[${index}][date][meta_id]" value="${data.id}">
+                <input type="hidden" name="criteria[${index}][date][meta_id]" value="${data.id || data.meta_id}">
                 <input type="hidden" name="criteria[${index}][date][label]" value="${data.label}">
                 <select name="criteria[${index}][date][operator]" id="select" class="form-control ${index === 0 ? 'd-none' : ''}">
                     <option value="and" ${data.operator === '' ? 'selected' : (data.operator === 'and' ? 'selected' : '')}>AND</option>

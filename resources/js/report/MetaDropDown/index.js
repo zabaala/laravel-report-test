@@ -29,8 +29,12 @@ export const metaDropDownGenerator = (data, callable) => {
         const id = document.createAttribute('id');
         id.value = 'select-meta';
 
+        const className = document.createAttribute('class');
+        className.value = 'form-control form-control-lg';
+
         option.setAttributeNode(attr);
         select.setAttributeNode(id);
+        select.setAttributeNode(className);
         select.appendChild(option);
     });
 

@@ -78,10 +78,10 @@ module.exports = __webpack_require__(38);
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Prototype__ = __webpack_require__(39);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Prototype__ = __webpack_require__(44);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Prototype___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Prototype__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__MetaDropDown__ = __webpack_require__(41);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Controllers__ = __webpack_require__(42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__MetaDropDown__ = __webpack_require__(45);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Controllers__ = __webpack_require__(46);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__CriteriaHtmlBuilder_index__ = __webpack_require__(47);
 
 
@@ -106,6 +106,8 @@ var metaDropDownOnChangeHandler = function metaDropDownOnChangeHandler(el) {
     var counter = document.querySelectorAll('#criteria-container .col-6').length;
 
     Object(__WEBPACK_IMPORTED_MODULE_3__CriteriaHtmlBuilder_index__["a" /* criteriaHtmlBuilder */])(counter, data);
+
+    el.selectedIndex = 0;
 };
 
 /**
@@ -134,13 +136,12 @@ document.getElementById('model').addEventListener('change', function () {
 /**
  * Special calls, if Report has a ID property.
  */
-if (Report.hasOwnProperty('id')) {
+if (Report.hasOwnProperty('id') && Report.id !== '') {
     // delete actions...
     Object(__WEBPACK_IMPORTED_MODULE_2__Controllers__["a" /* deleteAction */])();
 
     // add existing criteria to report form...
-    Report.criteria.forEach(function (item, i) {
-
+    Report.criteria.constructor === Array && Report.criteria.forEach(function (item, i) {
         var data = {};
 
         if (item.hasOwnProperty('text')) {
@@ -163,7 +164,7 @@ if (Report.hasOwnProperty('id')) {
 
 /***/ }),
 
-/***/ 39:
+/***/ 44:
 /***/ (function(module, exports) {
 
 Element.prototype.remove = function () {
@@ -180,23 +181,7 @@ NodeList.prototype.remove = HTMLCollection.prototype.remove = function () {
 
 /***/ }),
 
-/***/ 40:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return textTemplate; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return dateTemplate; });
-var textTemplate = function textTemplate(id, index, data) {
-    return '\n        <div class="col-6  mb-3" id="' + id + '">\n            <label for="a">\n                ' + data.label + ': \n                <small>\n                    <a href="#" id="' + id + '_remove">remove</a>\n                </small>\n            </label>\n            \n            <div class="input-group">\n                <input type="hidden" name="criteria[' + index + '][text][meta_id]" value="' + data.id + '">\n                <input type="hidden" name="criteria[' + index + '][text][label]" value="' + data.label + '">\n                <select name="criteria[' + index + '][text][operator]" id="select" class="form-control ' + (index === 0 ? 'd-none' : '') + '">\n                    <option value="and" ' + (data.operator === '' ? 'selected' : data.operator === 'and' ? 'selected' : '') + '>AND</option>\n                    <option value="or" ' + (data.operator === 'or' ? 'selected' : '') + '>OR</option>\n                </select>\n    \n                <select name="criteria[' + index + '][text][comparision_type]" id="select" class="form-control">\n                    <option value="equals_to"  ' + (data.comparision_type === 'equals_to' ? 'selected' : '') + '>equals to:</option>\n                    <option value="start_with" ' + (data.comparision_type === 'start_with' ? 'selected' : '') + '>start with:</option>\n                    <option value="end_with"   ' + (data.comparision_type === 'end_with' ? 'selected' : '') + '>end with:</option>\n                </select>\n    \n                <input class="form-control" name="criteria[' + index + '][text][value]" value="' + data.value + '" placeholder="Value" />\n            </div>\n        </div>';
-};
-
-var dateTemplate = function dateTemplate(id, index, data) {
-    return '\n        <div class="col-6 mb-3" id="' + id + '">\n            <label for="a">\n                ' + data.label + ': \n                <small>\n                    <a href="#" id="' + id + '_remove">remove</a>\n                </small>\n            </label>\n            \n            <div class="input-group">\n                <input type="hidden" name="criteria[' + index + '][date][meta_id]" value="' + data.id + '">\n                <input type="hidden" name="criteria[' + index + '][date][label]" value="' + data.label + '">\n                <select name="criteria[' + index + '][date][operator]" id="select" class="form-control ' + (index === 0 ? 'd-none' : '') + '">\n                    <option value="and" ' + (data.operator === '' ? 'selected' : data.operator === 'and' ? 'selected' : '') + '>AND</option>\n                    <option value="or" ' + (data.operator === 'or' ? 'selected' : '') + '>OR</option>\n                </select>\n                <input class="form-control" name="criteria[' + index + '][date][start_date]" value="' + data.start_date + '" placeholder="From..." type="date" />\n                <input class="form-control" name="criteria[' + index + '][date][end_date]" value="' + data.end_date + '" placeholder="To..." type="date" />\n            </div>\n        </div>\n    ';
-};
-
-/***/ }),
-
-/***/ 41:
+/***/ 45:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -232,8 +217,12 @@ var metaDropDownGenerator = function metaDropDownGenerator(data, callable) {
         var id = document.createAttribute('id');
         id.value = 'select-meta';
 
+        var className = document.createAttribute('class');
+        className.value = 'form-control form-control-lg';
+
         option.setAttributeNode(attr);
         select.setAttributeNode(id);
+        select.setAttributeNode(className);
         select.appendChild(option);
     });
 
@@ -246,7 +235,7 @@ var metaDropDownGenerator = function metaDropDownGenerator(data, callable) {
 
 /***/ }),
 
-/***/ 42:
+/***/ 46:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -274,7 +263,7 @@ var deleteAction = function deleteAction() {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return criteriaHtmlBuilder; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__templates_metas__ = __webpack_require__(40);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__templates_metas__ = __webpack_require__(48);
 
 
 /**
@@ -313,6 +302,22 @@ var criteriaHtmlBuilder = function criteriaHtmlBuilder(i, data) {
         e.preventDefault();
         document.getElementById(id).remove();
     });
+};
+
+/***/ }),
+
+/***/ 48:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return textTemplate; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return dateTemplate; });
+var textTemplate = function textTemplate(id, index, data) {
+    return '\n        <div class="col-6  mb-3" id="' + id + '">\n            <label for="a">\n                ' + data.label + ': \n                <small>\n                    <a href="#" id="' + id + '_remove">remove</a>\n                </small>\n            </label>\n            \n            <div class="input-group">\n                <input type="hidden" name="criteria[' + index + '][text][meta_id]" value="' + (data.id || data.meta_id) + '">\n                <input type="hidden" name="criteria[' + index + '][text][label]" value="' + data.label + '">\n                <select name="criteria[' + index + '][text][operator]" id="select" class="form-control ' + (index === 0 ? 'd-none' : '') + '">\n                    <option value="and" ' + (data.operator === '' ? 'selected' : data.operator === 'and' ? 'selected' : '') + '>AND</option>\n                    <option value="or" ' + (data.operator === 'or' ? 'selected' : '') + '>OR</option>\n                </select>\n    \n                <select name="criteria[' + index + '][text][comparision_type]" id="select" class="form-control">\n                    <option value="equals_to"  ' + (data.comparision_type === 'equals_to' ? 'selected' : '') + '>equals to:</option>\n                    <option value="start_with" ' + (data.comparision_type === 'start_with' ? 'selected' : '') + '>start with:</option>\n                    <option value="end_with"   ' + (data.comparision_type === 'end_with' ? 'selected' : '') + '>end with:</option>\n                </select>\n    \n                <input class="form-control" name="criteria[' + index + '][text][value]" value="' + data.value + '" placeholder="Value" />\n            </div>\n        </div>';
+};
+
+var dateTemplate = function dateTemplate(id, index, data) {
+    return '\n        <div class="col-6 mb-3" id="' + id + '">\n            <label for="a">\n                ' + data.label + ': \n                <small>\n                    <a href="#" id="' + id + '_remove">remove</a>\n                </small>\n            </label>\n            \n            <div class="input-group">\n                <input type="hidden" name="criteria[' + index + '][date][meta_id]" value="' + (data.id || data.meta_id) + '">\n                <input type="hidden" name="criteria[' + index + '][date][label]" value="' + data.label + '">\n                <select name="criteria[' + index + '][date][operator]" id="select" class="form-control ' + (index === 0 ? 'd-none' : '') + '">\n                    <option value="and" ' + (data.operator === '' ? 'selected' : data.operator === 'and' ? 'selected' : '') + '>AND</option>\n                    <option value="or" ' + (data.operator === 'or' ? 'selected' : '') + '>OR</option>\n                </select>\n                <input class="form-control" name="criteria[' + index + '][date][start_date]" value="' + data.start_date + '" placeholder="From..." type="date" />\n                <input class="form-control" name="criteria[' + index + '][date][end_date]" value="' + data.end_date + '" placeholder="To..." type="date" />\n            </div>\n        </div>\n    ';
 };
 
 /***/ })

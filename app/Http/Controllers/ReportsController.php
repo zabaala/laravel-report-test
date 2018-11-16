@@ -8,8 +8,6 @@ use App\Repositories\DbMetaRepository;
 use App\Repositories\DbReportRepository;
 use App\Support\AvailableModels;
 use App\Support\FilterQueryBuilder\FilterQueryBuilder;
-use Illuminate\Http\Request;
-use Mockery\Exception;
 
 class ReportsController extends Controller
 {

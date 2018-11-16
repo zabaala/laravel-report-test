@@ -31,6 +31,8 @@ class FilterQueryBuilder
 
         $this->data = collect($data['criteria']);
 
+
+
         $this->addCriteria();
     }
 
@@ -44,6 +46,8 @@ class FilterQueryBuilder
             $meta = (new DbMetaRepository())->getMetaById($criteria[$type]['meta_id']);
             $this->model = (new Criteria($type, $this->model, $criteria[$type], $meta->attribute))->getCriteria();
         });
+
+
     }
 
     public function getModel()

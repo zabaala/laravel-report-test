@@ -71,14 +71,14 @@ $updated_at = $editing ? $report->updated_at : '';
                 <hr>
 
                 <div class="card-body pt-0 pb-0">
-                    <p>
-                        <span class="h3">Criteria:</span>
-                        <span id="meta-select-container">
+                    <h3 class="text-center">Criteria</h3>
+                    <div class="text-center">
+                        <div id="meta-select-container" class="text-center w-50 ml-auto mr-auto">
                             <small>
                                 Select a model to continue...
                             </small>
-                        </span>
-                    </p>
+                        </div>
+                    </div>
                 </div>
 
                 <hr>
@@ -103,8 +103,8 @@ $updated_at = $editing ? $report->updated_at : '';
 @section('scripts')
     <script>
         const Report = {
-            id: {{ $report->id }},
-            criteria: {!! json_encode(unserialize($report->criteria)) !!}
+            id: {!! isset($report) ? $report->id  : "''" !!},
+            criteria: {!! isset($report) ? json_encode(unserialize($report->criteria)) : "''" !!}
         };
     </script>
 

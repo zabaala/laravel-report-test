@@ -19,7 +19,3 @@
 
         </div>
 @endsection
-
-@section('scripts')
-    <script type="module" src="{{ asset('js/report/report.js') }}"></script>
-@endsection
