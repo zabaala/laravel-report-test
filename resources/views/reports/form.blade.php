@@ -14,7 +14,12 @@ $updated_at = $editing ? $report->updated_at : '';
 
 @section('content')
     <div class="container">
-        <h2 class="mb-4 mt-4">Report (edit)</h2>
+        <h2 class="mb-4 mt-4">
+            Report (edit)
+            @if(isset($report->id))
+                <a href="{{ route('reports.show', $report->id) }}" target="_blank" class="btn float-right">See report</a>
+            @endif
+        </h2>
 
         <form action="{{ $formAction }}" method="post" id="form">
             @csrf

@@ -22,7 +22,7 @@
                     <div class=" card-footer">
                         <div class="row">
                             <div class="col-7 mr-auto">
-                                <a href="#" class="btn btn-sm btn-outline-info">See it!</a>
+                                <a href="{{ route('reports.show', $report->id) }}" class="btn btn-sm btn-outline-info">See it!</a>
                             </div>
 
                             <div class="col-5`">
