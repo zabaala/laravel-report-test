@@ -23,8 +23,8 @@ class Website extends Model
      * @var array
      */
     public static $arrActive = [
-        'Y' => 'Yes',
-        'N' => 'No',
+        '1' => 'Yes',
+        '0' => 'No',
     ];
 
     /**
